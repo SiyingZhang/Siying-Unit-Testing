@@ -17,18 +17,6 @@ public class Locations {
 		locationMap.put(4, "Downtown");
 		locationMap.put(5, "left");
 	}
-	
-	/**
-	 * Randomly select next place to visit
-	 * @param time - visiting 
-	 * @return next location
-	 */
-	public String nextLocation(Generator generator) {
-		
-		String location = locationMap.get(generator.randomGenerator()+1);
-		return location;
-	
-	}
 
 	public String getLocation(int index) {
 		return locationMap.get(index);

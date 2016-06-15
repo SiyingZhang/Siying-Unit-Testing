@@ -34,7 +34,7 @@ public class CitySim9002 {
 		String nextLocation = "";
 		
 		Generator visGenerator = new Generator(seed, VISITOR_SIZE);
-		String[] visitorList = visitors.visitors(visGenerator);
+		String[] visitorList = visitors.fiveVisiting(visGenerator);
 		
 		Random generator = new Random(seed);
 		

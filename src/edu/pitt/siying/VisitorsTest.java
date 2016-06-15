@@ -10,34 +10,73 @@ public class VisitorsTest {
 	private Visitors visitors = new Visitors();
 
 	/**
-	 * The element of index 3 should be Blogger in visitors list
+	 * Double + Stub
 	 * Mock the random generator
-	 * Set the random number to be 3
-	 * nextVisitor should return Blogger
+	 * Set the random number to be 1
+	 * Five visitors should be the same 
 	 */
 	@Test
 	public void testNextVisitor0() {
 		
 		Generator mockGenerator = Mockito.mock(Generator.class);
-		Mockito.when(mockGenerator.randomGenerator()).thenReturn(3);
+		Mockito.when(mockGenerator.randomGenerator()).thenReturn(1);
 		
-		assertEquals("Blogger", visitors.nextVisitor(mockGenerator));
+		Visitors visitors = new Visitors();
+		String visitorList[] = new String[5];
 		
+		for(int i=0; i<5; i++) {
+			visitorList[i] = visitors.nextVisitor(mockGenerator);
+		}
+		
+		boolean areEqual = true;
+		for(int i=0; i<5; i++) {
+			if(visitorList[i] != visitorList[0]) areEqual = false;
+		}
+		
+		assertTrue(areEqual);
 	}
 	
 	/**
-	 * The element of index 3 should be Blogger in visitors list
-	 * Mock the random generator
-	 * Set the random number to be 3
-	 * nextVisitor should not return Student
+	 * Using real random and visitor class
+	 * generator classes will be called five times
+	 * accordingly five integers should be generated
+	 * Generated Visitors shouldn't be the same 
 	 */
 	@Test
 	public void testNextVisitor1() {
 		
-		Generator mockGenerator = Mockito.mock(Generator.class);
-		Mockito.when(mockGenerator.randomGenerator()).thenReturn(3);
+		Generator generator = new Generator(9, 4);
 		
-		assertNotEquals("Student", visitors.nextVisitor(mockGenerator));
+		Visitors visitors = new Visitors();
+		String visitorList[] = new String[5];
+		
+		for(int i=0; i<5; i++) {
+			visitorList[i] = visitors.nextVisitor(generator);
+		}
+		
+		boolean areEqual = true;
+		for(int i=0; i<5; i++) {
+			if(visitorList[i] != visitorList[0]) areEqual = false;
+		}
+		
+		assertFalse(areEqual);
+	}
+	
+	/**
+	 * Every element has unique index in visitors list
+	 * Mock the visitors generator
+	 * Set the random array to be {3, 2, 1, 3, 0}
+	 * fiveVisiting should return a string array
+	 */
+	@Test
+	public void testFiveVisiting1() {
+		
+		Generator mockGenerator = Mockito.mock(Generator.class);
+		int[] indexArr = {3, 2, 1, 3, 0};
+		Mockito.when(mockGenerator.randomGenerateVisitor()).thenReturn(indexArr);
+		
+		String[] arr = {"Blogger", "Business Person", "Professor", "Blogger", "Student"};
+		assertArrayEquals(arr, visitors.fiveVisiting(mockGenerator));
 		
 	}
 	

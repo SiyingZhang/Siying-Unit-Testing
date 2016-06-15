@@ -23,6 +23,7 @@ public class Generator {
 		return random;
 	}
 	
+	//Randomly generating visitors for five times
 	public int[] randomGenerateVisitor() {
 		int[] visitorList = new int[5];
 		

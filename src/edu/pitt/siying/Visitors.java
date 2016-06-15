@@ -6,6 +6,8 @@ import java.util.HashMap;
 
 public class Visitors {
 	
+	private static int VISITING_TIME = 5;
+	
 	private List<String> studentLikes;
 	private List<String> professorLikes;
 	private List<String> businessLikes;
@@ -24,7 +26,6 @@ public class Visitors {
 		studentLikes.add("Squirrel Hill");
 		studentLikes.add("Downtown");
 		studentLikes.add("The Point");
-		//System.out.println(studentLikes.get(0) + studentLikes.get(1));
 		visitorsInfo.put("Student", studentLikes);
 		
 		//Professor information
@@ -54,27 +55,28 @@ public class Visitors {
 	
 	
 	/**
-	 * Randomly generate the next visitor
-	 * @param seed
-	 * @return selected visitor
+	 * Randomly generating five visitors
+	 * @param generator
+	 * @return
 	 */
-	public String nextVisitor(Generator generator) {
-	
-		String selected = visitorTypes.get(generator.randomGenerator());
-		
-		return selected;
-
-	}
-	
-	public String[] visitors(Generator generator) {
-		String[] visitors = new String[5];
+	public String[] fiveVisiting(Generator generator) {
+		String[] visitors = new String[VISITING_TIME];
 		int[] visitorIndex = generator.randomGenerateVisitor();
 		
-		for(int i =0; i<5; i++) {
+		for(int i =0; i<VISITING_TIME; i++) {
 			visitors[i] = visitorTypes.get(visitorIndex[i]);
 		}
 		
 		return visitors;
+	}
+	
+	/**
+	 * Randomly produce next visitor
+	 * @param generator
+	 * @return next selected visitor
+	 */
+	public String nextVisitor(Generator generator) {
+		return visitorTypes.get(generator.randomGenerator());
 	}
 	
 	/**
