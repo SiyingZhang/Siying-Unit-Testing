@@ -28,16 +28,15 @@ public class CitySim9002Test {
 
 	
 	// VALID INTEGER TEST - 1
-	//Return false if the input is 0 or 1
+	//Return false if the input has 0 integer
 	@Test
 	public void testIsInteger1() {
-		String[] testArray1 = {"1"};
-		String[] testArray2 = {"0"};
-		assertFalse(CitySim9002.isInteger(testArray1) || CitySim9002.isInteger(testArray2));
+		String[] testArray = {};
+		assertFalse(CitySim9002.isInteger(testArray));
 	}
 	
 	// VALID INTEGER TEST - 2
-	// Return false if the input is more than one parameter 
+	// Return false if the input has more than one integer 
 	@Test
 	public void testIsInteger2() {
 		

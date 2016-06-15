@@ -1,43 +1,84 @@
 package edu.pitt.siying;
 
+import java.util.Random;
+
+
 /**
  * Main Class to run
  * @author siying
- * @version 1.0
  */
 public class CitySim9002 {
+	
+	private static int VISITOR_SIZE = 4;
+	private static int LOCATION_SIZE = 5;
 
 	public static void main(String[] args) {
 		
 		int seed = 0;
 		
-		//Only one integer parameter is allowed, and it can't be 0 or 1
+		//Only one valid integer parameter is allowed
 		if(isInteger(args))
-			seed = Integer.parseInt(args[0]); 	//Get the Integer as a parameter
+			//set the seed
+			seed = Integer.parseInt(args[0]); 	
 		else {
 			System.out.println("Please enter one integer argument, seed");
 			System.exit(0);
 		}
-		// TODO Auto-generated method stub
 		
+		System.out.println("Welcome to CitySim!  Your seed is " + seed + ".");	
 		
-		System.out.println("Welcome to CitySim!  Your seed is " + seed + " .");	
+		Visitors visitors = new Visitors();	
+		String nextVisitor = "";
 		
-		Visitors visitors = new Visitors();
-		String selectedVisitor = "";
+		Locations locations = new Locations();
+		String nextLocation = "";
+		
+		Generator visGenerator = new Generator(seed, VISITOR_SIZE);
+		String[] visitorList = visitors.visitors(visGenerator);
+		
+		Random generator = new Random(seed);
 		
 		for(int i=1; i<=5; i++) {
-			selectedVisitor = visitors.randomGetVisitor(seed);
 			
-			System.out.println("Visitor " + i + " is a " + selectedVisitor);
+			//STEP1 - Randomly select a visitor
+			nextVisitor = visitorList[i-1];		
+			System.out.println("Visitor " + i + " is a " + nextVisitor);
 			
+			//STEP2 - Randomly visit
+			nextLocation = locations.getLocation(generator.nextInt(LOCATION_SIZE) + 1);
+			
+			//The visitor shouldn't leave in the first time.
+			while(nextLocation.compareTo("left") == 0) {
+				nextLocation = locations.getLocation(generator.nextInt(LOCATION_SIZE) + 1);
+			}
+			
+			while(nextLocation.compareTo("left") != 0) {
+				System.out.println("Visitor " + i + " is going to " + nextLocation + "!");
+				
+				if(visitors.likeLocation(nextVisitor, nextLocation))
+					System.out.println("Visitor " + i + " did like " + nextLocation + ".");
+				else
+					System.out.println("Visitor " + i + " did not like " + nextLocation + ".");
+				
+				nextLocation = locations.getLocation(generator.nextInt(LOCATION_SIZE) + 1);
+			}
+			
+			System.out.println("Visitor " + i + " has left the city.");
+			
+			//STEP3 - Print three asterisks
+			System.out.println("***");
 		}
 	}
 	
-	//Determine the parameter
+	/**
+	 * Determine whether the input is a valid integer
+	 * @param arg
+	 * @return
+	 */
 	public static boolean isInteger(String[] arg) {
 		
-		if(arg.length > 1) return false;
+		//Only one integer is permitted
+		if(arg.length != 1) return false;
 		
 		try{
 			Integer.parseInt(arg[0]);
@@ -46,8 +87,7 @@ public class CitySim9002 {
 		} catch(NullPointerException e) {
 			return false;
 		}
-		
-		if(Integer.parseInt(arg[0]) == 0 || Integer.parseInt(arg[0]) == 1)	return false;
+	
 		return true;
 	}
 

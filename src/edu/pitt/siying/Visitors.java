@@ -3,7 +3,6 @@ package edu.pitt.siying;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
-import java.util.Random;
 
 public class Visitors {
 	
@@ -18,19 +17,22 @@ public class Visitors {
 	
 	//Initialization
 	public Visitors() {
+		
+		visitorsInfo = new HashMap<String, List<String>>();
 		//Student information
 		studentLikes = new ArrayList<String>();
 		studentLikes.add("Squirrel Hill");
 		studentLikes.add("Downtown");
 		studentLikes.add("The Point");
+		//System.out.println(studentLikes.get(0) + studentLikes.get(1));
 		visitorsInfo.put("Student", studentLikes);
 		
 		//Professor information
 		professorLikes = new ArrayList<String>();
+		professorLikes.add("The Cathedral of Learning");
 		professorLikes.add("Squirrel Hill");
 		professorLikes.add("Downtown");
 		professorLikes.add("The Point");
-		professorLikes.add("The Cathedral of Learning");
 		visitorsInfo.put("Professor", professorLikes);
 		
 		//Business Person information
@@ -50,18 +52,39 @@ public class Visitors {
 		visitorTypes.add("Blogger");
 	}
 	
-	public String randomGetVisitor(int seed) {
-		String selected = "";
+	
+	/**
+	 * Randomly generate the next visitor
+	 * @param seed
+	 * @return selected visitor
+	 */
+	public String nextVisitor(Generator generator) {
+	
+		String selected = visitorTypes.get(generator.randomGenerator());
 		
-		Random generator = new Random();
-		int item = generator.nextInt(seed);
-		
-		int i=0;
-		for(String s:visitorTypes) {
-			if (i == item)
-				selected = s;
-			i ++;
-		}
 		return selected;
+
 	}
+	
+	public String[] visitors(Generator generator) {
+		String[] visitors = new String[5];
+		int[] visitorIndex = generator.randomGenerateVisitor();
+		
+		for(int i =0; i<5; i++) {
+			visitors[i] = visitorTypes.get(visitorIndex[i]);
+		}
+		
+		return visitors;
+	}
+	
+	/**
+	 * Detemine whether the visitor likes this location
+	 * @param visitor
+	 * @param location
+	 * @return true - like ; false - not like
+	 */
+	public boolean likeLocation(String visitor, String location) {
+		return visitorsInfo.get(visitor).contains(location);
+	}
+	
 }
